@@ -2,7 +2,7 @@ require('dotenv').config();
 const express=require('express');
 const aws=require('aws-sdk');
 const fs=require('fs');
-const mongoose=require('mongoose');
+//const mongoose=require('mongoose');
 const path=require('path');
 const bcrypt=require('bcrypt');
 const bodyParser=require('body-parser');
@@ -29,15 +29,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //b.catch(err=>{
   //  console.log('Connection failed');
 //});kkk
-let loginSchema = new mongoose.Schema(
-    {
-       user: String,
-       pass: String 
-    },
-    {versionKey:false}
-);
-let loginModel = new mongoose.model("user",loginSchema,"users");
-
 app.get('/',(req,res)=>{
     res.sendFile(__dirname+'/public/login.html');
 });
