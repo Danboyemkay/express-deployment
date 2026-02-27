@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //});
 //b.catch(err=>{
   //  console.log('Connection failed');
-//});
+//});kkk
 let loginSchema = new mongoose.Schema(
     {
        user: String,
