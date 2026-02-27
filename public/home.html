@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Upload Picture</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(135deg, #0f1724, #0b2545);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e6eef8;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .upload-wrap { width: 100%; max-width: 420px; }
+    .upload-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      backdrop-filter: blur(6px);
+    }
+    .upload-card .title { margin: 0 0 18px 0; font-size: 1.2rem; }
+    .field { display: block; margin-bottom: 14px; }
+    .label-text { display: block; font-size: 0.7rem; color: #9aa6bf; margin-bottom: 6px; }
+    input[type="text"], input[type="file"], textarea {
+      width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02); color: inherit; font-size: 0.9rem; outline: none;
+      font-family: inherit;
+    }
+    input[type="file"]::file-selector-button {
+      background: linear-gradient(90deg, #5eead4, #34d399);
+      color: #052020;
+      border: 0;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.8rem;
+      margin-right: 8px;
+    }
+    textarea { resize: vertical; min-height: 80px; }
+    input::placeholder { color: #6b7183; }
+    .preview { margin-top: 12px; }
+    .preview img { max-width: 100%; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06); }
+    .btn {
+      width: 100%; padding: 10px; border-radius: 10px; border: 0;
+      background: linear-gradient(90deg, #5eead4, #34d399);
+      color: #052020; font-weight: 600; font-size: 0.9rem; cursor: pointer; margin-top: 8px;
+    }
+    .btn:hover { opacity: 0.9; }
+    .back-link { margin-top: 16px; text-align: center; }
+    .back-link a { color: #5eead4; text-decoration: none; font-size: 0.8rem; }
+    @media (max-width: 420px) { .upload-card { padding: 22px; } }
+  </style>
+</head>
+<body>
+  <div class="upload-wrap">
+    <form class="upload-card" action="/upload" method="post" enctype="multipart/form-data">
+      <h1 class="title">Upload Picture</h1>
+
+      <label class="field">
+        <span class="label-text">Select Picture</span>
+        <input id="picture" name="picture" type="file" accept="image/*" required>
+      </label>
+
+      <div class="preview" id="preview"></div>
+
+      <button class="btn" type="submit">Upload</button>
+
+      <div class="back-link" style="display: flex; justify-content: center; gap: 20px;">
+        <a href="/download" style="color: #5eead4; text-decoration: none; font-size: 0.8rem;">Download</a>
+        <a href="/" style="color: #5eead4; text-decoration: none; font-size: 0.8rem;">←Logout</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('picture').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      const preview = document.getElementById('preview');
+      preview.innerHTML = '';
+      
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          const img = document.createElement('img');
+          img.src = event.target.result;
+          preview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign Up</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(135deg, #0f1724, #0b2545);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e6eef8;
+    }
+    .login-wrap { width: 100%; max-width: 420px; padding: 24px; }
+    .login-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      backdrop-filter: blur(6px);
+    }
+    .login-card .title { margin: 0 0 18px 0; font-size: 1.2rem; }
+    .field { display: block; margin-bottom: 14px; }
+    .label-text { display: block; font-size: 0.7rem; color: #9aa6bf; margin-bottom: 6px; }
+    input[type="text"], input[type="password"] {
+      width: 100%; padding: 10px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02); color: inherit; font-size: 0.9rem; outline: none;
+    }
+    input::placeholder { color: #6b7183; }
+    .btn {
+      width: 100%; padding: 10px; border-radius: 10px; border: 0;
+      background: linear-gradient(90deg, #5eead4, #34d399);
+      color: #052020; font-weight: 600; font-size: 0.9rem; cursor: pointer;
+    }
+    .signup { margin-top: 16px; text-align: center; color: #9aa6bf; font-size: 0.8rem; }
+    .signup a { color: #5eead4; text-decoration: none; }
+    @media (max-width: 420px) { .login-card { padding: 22px; } }
+  </style>
+</head>
+<body>
+  <div class="login-wrap">
+    <form class="login-card" action="/register" method="post">
+      <h1 class="title">Create Account</h1>
+
+      <label class="field">
+        <span class="label-text">Username</span>
+        <input id="username" name="username" type="text" required placeholder="Choose a username">
+      </label>
+
+      <label class="field">
+        <span class="label-text">Password</span>
+        <input id="password" name="password" type="password" required placeholder="Password">
+      </label>
+
+      <label class="field">
+        <span class="label-text">Confirm Password</span>
+        <input id="confirm-password" name="confirm-password" type="password" required placeholder="Confirm password">
+      </label>
+
+      <button class="btn" type="submit">Sign Up</button>
+
+      <p class="signup">Already have an account? <a href="/">Log in</a></p>
+    </form>
+  </div>
+</body>
+</html>

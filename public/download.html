@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Download Pictures</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: linear-gradient(135deg, #0f1724, #0b2545);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e6eef8;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .download-wrap { width: 100%; max-width: 600px; }
+    .download-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+      backdrop-filter: blur(6px);
+    }
+    .download-card .title { margin: 0 0 18px 0; font-size: 1.2rem; }
+    .file-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .file-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
+      margin-bottom: 10px;
+      background: rgba(255,255,255,0.02);
+      transition: all 0.3s ease;
+    }
+    .file-item:hover {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.1);
+    }
+    .file-name {
+      font-size: 0.95rem;
+      word-break: break-word;
+      flex: 1;
+      margin-right: 12px;
+    }
+    .download-btn {
+      padding: 8px 16px;
+      border-radius: 6px;
+      border: 0;
+      background: linear-gradient(90deg, #5eead4, #34d399);
+      color: #052020;
+      font-weight: 600;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
+    }
+    .download-btn:hover { opacity: 0.9; }
+    .loading { text-align: center; padding: 20px; color: #9aa6bf; }
+    .error {
+      padding: 12px 16px;
+      border-radius: 8px;
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid #ef4444;
+      color: #ef4444;
+      margin-bottom: 16px;
+    }
+    .success {
+      padding: 12px 16px;
+      border-radius: 8px;
+      background: rgba(52, 211, 153, 0.2);
+      border: 1px solid #34d399;
+      color: #34d399;
+      margin-bottom: 16px;
+    }
+    .back-link { margin-top: 20px; text-align: center; }
+    .back-link a { color: #5eead4; text-decoration: none; font-size: 0.9rem; }
+    .empty-state { text-align: center; padding: 40px 20px; color: #9aa6bf; }
+    @media (max-width: 600px) { .download-card { padding: 22px; } }
+  </style>
+</head>
+<body>
+  <div class="download-wrap">
+    <div class="download-card">
+      <h1 class="title">Download Pictures</h1>
+
+      <div id="message"></div>
+      <div id="fileContainer">
+        <div class="loading">Loading files...</div>
+      </div>
+
+      <div class="back-link">
+        <a href="/home">← Back</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function loadFiles() {
+      const container = document.getElementById('fileContainer');
+      const messageDiv = document.getElementById('message');
+
+      try {
+        const response = await fetch('/api/files');
+        const files = await response.json();
+
+        if (!response.ok) {
+          throw new Error(files.error || 'Failed to load files');
+        }
+
+        if (files.length === 0) {
+          container.innerHTML = '<div class="empty-state">No files available for download</div>';
+          return;
+        }
+
+        let html = '<ul class="file-list">';
+        files.forEach(file => {
+          html += `
+            <li class="file-item">
+              <span class="file-name">${escape(file)}</span>
+              <button class="download-btn" onclick="downloadFile('${file}')">Download</button>
+            </li>
+          `;
+        });
+        html += '</ul>';
+
+        container.innerHTML = html;
+      } catch (err) {
+        container.innerHTML = `<div class="error">${err.message}</div>`;
+      }
+    }
+
+    function downloadFile(filename) {
+      const url = `/download/${encodeURIComponent(filename)}`;
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    loadFiles();
+  </script>
+</body>
+</html>
