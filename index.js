@@ -22,13 +22,13 @@ function getS3Client() {
 //app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(express.urlencoded({extended : true}));
-let b = mongoose.connect(process.env.MONGODB_URI);
-b.then(()=>{
-        console.log('MongoDB Connection succesful');
-});
-b.catch(err=>{
-    console.log('Connection failed');
-});
+//let b = mongoose.connect(process.env.MONGODB_URI);
+//b.then(()=>{
+ //       console.log('MongoDB Connection succesful');
+//});
+//b.catch(err=>{
+  //  console.log('Connection failed');
+//});
 let loginSchema = new mongoose.Schema(
     {
        user: String,
